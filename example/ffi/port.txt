@@ -6,14 +6,14 @@ import FFI
 // Helper functions like `once` help you asynchronously retrieve the
 // result of an operation.
 fn jsFib [n] =>
-    let port = FFI::open<Number>();
-    FFI::send_number(port, n);
+    let port = FFI::open<Number>('fibonacci');
+    FFI::sendNumber(port, n);
     Async::first(port)
 
 // FFI ports act as streams.
 // Thus, they can be processed like any other stream.
 fn jsStream => 
-    let port = FFI::port();
+    let port = FFI::port('my_stream');
     Async::each(port, [msg] => switch(msg.type) {
         case 'computation': msg.value
         case 'close': FFI::close(port)
